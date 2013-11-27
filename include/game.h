@@ -21,7 +21,7 @@ public:
 
   void CreateGame(const GameConfig& game_config);
 
-private
+private:
 
   void SelfCheck() const;
 
