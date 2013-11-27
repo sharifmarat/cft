@@ -11,13 +11,18 @@ template <typename Form>
 class GeometryAndOrientation
 {
 public:
+  GeometryAndOrientation(const Form& form) : form_(form) { }
+
+  inline void SetPosition(const Vector2D& position) { position_ = position; }
+
+  inline void SetOrientation(double orientation) { orientation_ = orientation; }
 
 private:
 
 private:
   Form form_;
-  Vector2D position;
-  Vector2D orientation;
+  Vector2D position_;
+  double orientation_;  // 0 - x, pi/2 - y
 };
 
 

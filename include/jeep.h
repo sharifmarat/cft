@@ -8,10 +8,10 @@
 namespace cft
 {
 
-class Jeep : MovingUnit<Rectangular>
+class Jeep : public MovingUnit<Rectangular>
 {
 public:
-  void Create();
+  Jeep(int id, int team_id, const Rectangular& rectangular, double mass) : MovingUnit<Rectangular>(id, team_id, rectangular, mass) { }
 
 private:
 

@@ -10,10 +10,10 @@ namespace cft
 struct Rectangular
 {
   Rectangular() { }
-  Rectangular(double width, double heigiht) : width(width), height(height) { }
+  Rectangular(double width, double length) : width(width), length(length) { }
 
   double width;
-  double height;
+  double length;
 };
 
 

@@ -11,10 +11,12 @@ namespace cft
 {
 
 template <typename Form>
-class MovingUnit : Unit<Form>
+class MovingUnit : public Unit<Form>
 {
 public:
   typedef Sensor<Line> SensorLine;
+
+  MovingUnit(int id, int team_id, const Form& form, double mass) : Unit<Form>(id, team_id, form, mass) { }
 
 private:
 

@@ -2,12 +2,14 @@
 #define CFT_GAME_H 1
 
 #include <list>
+#include <boost/shared_ptr.hpp>
 
 #include "config.h"
 #include "game_config.h"
 #include "field.h"
 #include "rectangular.h"
 #include "base_unit.h"
+
 
 namespace cft
 {
@@ -19,9 +21,13 @@ public:
 
   void CreateGame(const GameConfig& game_config);
 
+private
+
+  void SelfCheck() const;
+
 private:
   Field<Rectangular> field_;
-  std::list<BaseUnit> units_;
+  std::list<boost::shared_ptr<BaseUnit> > units_;
 };
 
 
