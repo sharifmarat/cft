@@ -2,26 +2,29 @@
 #define CFT_MOVING_UNIT_H 1
 
 #include <vector>
+#include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/geometry/geometries/segment.hpp>
+
 
 #include "unit.h"
-#include "line.h"
 #include "sensor.h"
 
 namespace cft
 {
 
-template <typename Form>
-class MovingUnit : public Unit<Form>
+template <typename Geometry>
+class MovingUnit : public Unit<Geometry>
 {
 public:
-  typedef Sensor<Line> SensorLine;
+  typedef boost::geometry::model::segment<boost::geometry::model::d2::point_xy<double> > Segment;
+  typedef Sensor<Segment> SensorSegment;
 
-  MovingUnit(int id, int team_id, const Form& form, double mass) : Unit<Form>(id, team_id, form, mass) { }
+  MovingUnit(int id, int team_id, const Geometry& geometry, double mass) : Unit<Geometry>(id, team_id, geometry, mass) { }
 
 private:
 
 private:
-  std::vector<SensorLine> sensors_;
+  std::vector<SensorSegment> sensors_;
 };
 
 

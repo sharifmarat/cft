@@ -2,16 +2,16 @@
 #define CFT_JEEP_H 1
 
 #include "moving_unit.h"
-#include "rectangular.h"
+#include "types.h"
 
 
 namespace cft
 {
 
-class Jeep : public MovingUnit<Rectangular>
+class Jeep : public MovingUnit<Ring>
 {
 public:
-  Jeep(int id, int team_id, const Rectangular& rectangular, double mass) : MovingUnit<Rectangular>(id, team_id, rectangular, mass) { }
+  Jeep(int id, int team_id, const Ring &ring, double mass) : MovingUnit<Ring>(id, team_id, ring, mass) { }
 
 private:
 

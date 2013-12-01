@@ -3,16 +3,16 @@
 
 #include <vector>
 
+#include "types.h"
 #include "unit.h"
-#include "rectangular.h"
 
 namespace cft
 {
 
-class Flag : public Unit<Rectangular>
+class Flag : public Unit<Ring>
 {
 public:
-  Flag(int id, int team_id, const Rectangular& form, double mass) : Unit<Rectangular>(id, team_id, form, mass) { }
+  Flag(int id, int team_id, const Ring& ring, double mass) : Unit<Ring>(id, team_id, ring, mass) { }
 
 private:
 };

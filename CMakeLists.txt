@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.3)
+
 
 # setup project variables
 set(PROJECT_NAME cft)
@@ -6,6 +7,8 @@ set(EXT_PROJECTS_DIR external)
 set(LIBRARY ${PROJECT_NAME}_lib)
 set(EXECUTABLE ${PROJECT_NAME})
 project(${PROJECT_NAME} CXX)
+
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 # find boost
 set(Boost_USE_STATIC_LIBS ON) 
@@ -18,21 +21,28 @@ else()
   message(FATAL_ERROR "boost is not found")
 endif()
 
+# find QT
+find_package(Qt4 REQUIRED)
+# invoke moc
+# qt4_wrap_cpp(QQQQQQ ${EXECUTABLE_SOURCES})
+# include qt
+include(${QT_USE_FILE})
+add_definitions(${QT_DEFINITIONS})
+
 # add include dirs
 include_directories("${CMAKE_SOURCE_DIR}/include")
 
 # build library
 file(GLOB_RECURSE LIBRARY_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp" "${CMAKE_SOURCE_DIR}/include/*.h" "${CMAKE_SOURCE_DIR}/include/*.hpp")
 message(STATUS "library sources = ${LIBRARY_SOURCES}")
-add_library(${LIBRARY} SHARED ${LIBRARY_SOURCES})
-target_link_libraries(${LIBRARY} ${Boost_LIBRARIES} )
+add_library(${LIBRARY} STATIC ${LIBRARY_SOURCES})
 
 
 # build program
 file(GLOB_RECURSE EXECUTABLE_SOURCES "${CMAKE_SOURCE_DIR}/program/*.cpp")
 message(STATUS "executable sources = ${EXECUTABLE_SOURCES}")
 add_executable(${EXECUTABLE} ${EXECUTABLE_SOURCES} )
-target_link_libraries(${EXECUTABLE} ${LIBRARY} )
+target_link_libraries(${EXECUTABLE} ${LIBRARY} ${Boost_LIBRARIES} ${QT_LIBRARIES})
 
 
 # build tests (if enabled)

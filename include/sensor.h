@@ -5,7 +5,7 @@
 namespace cft
 {
 
-template <typename Form>
+template <typename Geometry>
 class Sensor
 {
 public:
