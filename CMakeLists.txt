@@ -14,7 +14,7 @@ set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++0x")
 set(Boost_USE_STATIC_LIBS ON) 
 set(Boost_USE_MULTITHREADED ON)  
 set(Boost_USE_STATIC_RUNTIME ON) 
-find_package(Boost 1.48.0 COMPONENTS program_options system filesystem)
+find_package(Boost 1.49.0 COMPONENTS program_options system filesystem thread)
 if (Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIR})
 else()
@@ -26,14 +26,16 @@ find_package(Qt4 REQUIRED)
 # invoke moc
 # qt4_wrap_cpp(QQQQQQ ${EXECUTABLE_SOURCES})
 # include qt
+file(GLOB_RECURSE QOBJECTS "${CMAKE_SOURCE_DIR}/include_qobjects/*.h")
+qt4_wrap_cpp(QOBJECTS_MOC ${QOBJECTS})
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
 
 # add include dirs
-include_directories("${CMAKE_SOURCE_DIR}/include")
+include_directories("${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/include_qobjects")
 
 # build library
-file(GLOB_RECURSE LIBRARY_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp" "${CMAKE_SOURCE_DIR}/include/*.h" "${CMAKE_SOURCE_DIR}/include/*.hpp")
+file(GLOB_RECURSE LIBRARY_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp" "${CMAKE_SOURCE_DIR}/include/*.h" "${CMAKE_SOURCE_DIR}/include_qobjects/*.h"  "${CMAKE_SOURCE_DIR}/include/*.hpp")
 message(STATUS "library sources = ${LIBRARY_SOURCES}")
 add_library(${LIBRARY} STATIC ${LIBRARY_SOURCES})
 
@@ -41,7 +43,7 @@ add_library(${LIBRARY} STATIC ${LIBRARY_SOURCES})
 # build program
 file(GLOB_RECURSE EXECUTABLE_SOURCES "${CMAKE_SOURCE_DIR}/program/*.cpp")
 message(STATUS "executable sources = ${EXECUTABLE_SOURCES}")
-add_executable(${EXECUTABLE} ${EXECUTABLE_SOURCES} )
+add_executable(${EXECUTABLE} ${EXECUTABLE_SOURCES} ${QOBJECTS_MOC} )
 target_link_libraries(${EXECUTABLE} ${LIBRARY} ${Boost_LIBRARIES} ${QT_LIBRARIES})
 
 
