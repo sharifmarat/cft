@@ -22,20 +22,23 @@ else()
 endif()
 
 # find QT
-find_package(Qt4 REQUIRED)
-# invoke moc
-# qt4_wrap_cpp(QQQQQQ ${EXECUTABLE_SOURCES})
-# include qt
-file(GLOB_RECURSE QOBJECTS "${CMAKE_SOURCE_DIR}/include_qobjects/*.h")
-qt4_wrap_cpp(QOBJECTS_MOC ${QOBJECTS})
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
+find_package(Qt4)
+if (Qt4_FOUND)
+  file(GLOB_RECURSE QOBJECTS "${CMAKE_SOURCE_DIR}/include_qobjects/*.h")
+  qt4_wrap_cpp(QOBJECTS_MOC ${QOBJECTS})
+  include(${QT_USE_FILE})
+  add_definitions(${QT_DEFINITIONS})
+else()
+  message(WARNING "Qt4 is not found, UI is disabled")
+  set(QOBJECTS "")
+  set(QOBJECTS_MOC "")
+endif()
 
 # add include dirs
 include_directories("${CMAKE_SOURCE_DIR}/include" "${CMAKE_SOURCE_DIR}/include_qobjects")
 
 # build library
-file(GLOB_RECURSE LIBRARY_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp" "${CMAKE_SOURCE_DIR}/include/*.h" "${CMAKE_SOURCE_DIR}/include_qobjects/*.h"  "${CMAKE_SOURCE_DIR}/include/*.hpp")
+file(GLOB_RECURSE LIBRARY_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp" "${CMAKE_SOURCE_DIR}/include/*.h" ${QOBJECTS}  "${CMAKE_SOURCE_DIR}/include/*.hpp")
 message(STATUS "library sources = ${LIBRARY_SOURCES}")
 add_library(${LIBRARY} STATIC ${LIBRARY_SOURCES})
 

@@ -1,3 +1,5 @@
+#ifdef QT_CORE_LIB
+
 #include "game_widget.h"
 
 #include <boost/assign.hpp>
@@ -46,3 +48,4 @@ void GameWidget::paintEvent(QPaintEvent*)
 
 }
 
+#endif
