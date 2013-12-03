@@ -5,6 +5,7 @@
 
 #include "types.h"
 #include "unit.h"
+#include "algorithms.h"
 
 namespace cft
 {
@@ -12,7 +13,18 @@ namespace cft
 class Flag : public Unit<Ring>
 {
 public:
-  Flag(int id, int team_id, const Ring& ring, double mass) : Unit<Ring>(id, team_id, ring, mass) { }
+  Flag(int id, int team_id, const Point2D& position, double mass)
+    : Unit<Ring>(id, team_id)
+  {
+    const double length = 1.0;
+    const double width = 1.0;
+    
+    Ring geometry = make_rectangle(position, length, width);
+
+    SetGeometry(geometry);
+
+    SetMass(mass);
+  }
 
 private:
 };

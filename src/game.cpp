@@ -19,39 +19,25 @@ Game::Game()
 void Game::CreateGame(const GameConfig& game_config)
 {
   //field_.SetGeometry(Box(Point2D(0, 0), Point2D(1e3, 1e3)));
-  field_.SetGeometry(Box(Point2D(0, 0), Point2D(20, 20)));
+  field_.SetGeometry(Box(Point2D(0, 0), Point2D(50, 50)));
 
   // create jeeps
   double jeep_mass = 1e3;
-  Ring jeep_geometry1;
-  boost::geometry::append(jeep_geometry1, Point2D(0.1, 0.1));
-  boost::geometry::append(jeep_geometry1, Point2D(0.1, 1.1));
-  boost::geometry::append(jeep_geometry1, Point2D(1.1, 1.1));
-  boost::geometry::append(jeep_geometry1, Point2D(1.1, 0.1));
-  boost::shared_ptr<Jeep> jeep1(new Jeep(1, 1, jeep_geometry1, jeep_mass));
+  boost::shared_ptr<Jeep> jeep1(new Jeep(1, 1, Point2D(10, 10), Vector2D(44.0, -20), jeep_mass));
   units_.push_back(jeep1);
 
   Ring jeep_geometry2;
-  boost::geometry::append(jeep_geometry2, Point2D(10, 10));
-  boost::geometry::append(jeep_geometry2, Point2D(10, 11));
-  boost::geometry::append(jeep_geometry2, Point2D(11, 11));
-  boost::geometry::append(jeep_geometry2, Point2D(11, 10));
-  boost::shared_ptr<Jeep> jeep2(new Jeep(2, 2, jeep_geometry2, jeep_mass));
+  boost::shared_ptr<Jeep> jeep2(new Jeep(2, 2, Point2D(30, 30), Vector2D(-0.9, 0.8), jeep_mass));
   units_.push_back(jeep2);
 
   // create flags
-  Ring flag_geometry;
   double flag_mass = 10;
-  boost::geometry::append(flag_geometry, Point2D(1.1, 1.1));
-  boost::geometry::append(flag_geometry, Point2D(1.1, 1.9));
-  boost::geometry::append(flag_geometry, Point2D(1.9, 1.9));
-  boost::geometry::append(flag_geometry, Point2D(1.9, 1.1));
 
-  boost::shared_ptr<Flag> flag1(new Flag(3, 1, flag_geometry, flag_mass));
+  boost::shared_ptr<Flag> flag1(new Flag(3, 1, Point2D(2, 25), flag_mass));
   units_.push_back(flag1);
 
-  //boost::shared_ptr<Flag> flag2(new Flag(4, 2, flag_geometry, flag_mass));
-  //units_.push_back(flag2);
+  boost::shared_ptr<Flag> flag2(new Flag(4, 2, Point2D(48, 25), flag_mass));
+  units_.push_back(flag2);
 
   SelfCheck();
 }

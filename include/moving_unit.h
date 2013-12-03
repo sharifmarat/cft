@@ -19,7 +19,11 @@ public:
   typedef boost::geometry::model::segment<boost::geometry::model::d2::point_xy<double> > Segment;
   typedef Sensor<Segment> SensorSegment;
 
-  MovingUnit(int id, int team_id, const Geometry& geometry, double mass) : Unit<Geometry>(id, team_id, geometry, mass) { }
+  MovingUnit(int id, int team_id) : Unit<Geometry>(id, team_id) { }
+
+protected:
+  using Unit<Geometry>::SetGeometry;
+  using Unit<Geometry>::SetMass;
 
 private:
 

@@ -11,6 +11,7 @@
 namespace cft
 {
 typedef boost::geometry::model::d2::point_xy<double> Point2D;
+typedef boost::geometry::model::d2::point_xy<double> Vector2D;
 typedef boost::geometry::model::box<Point2D> Box;
 typedef boost::geometry::model::ring<Point2D> Ring;
 typedef boost::geometry::model::polygon<Point2D> Polygon;

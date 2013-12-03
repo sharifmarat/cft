@@ -14,7 +14,7 @@ template <typename Geometry>
 class Unit
 {
 public:
-  Unit(int id, int team_id, const Geometry& geometry, double mass) : id_(id), team_id_(team_id), geometry_(geometry), mass_(mass) { }
+  Unit(int id, int team_id) : id_(id), team_id_(team_id) { }
 
   inline int GetId() const { return id_; }
 
@@ -29,6 +29,11 @@ public:
     boost::geometry::intersection(geometry_, that.geometry_, result);
     return !result.empty();
   }
+
+protected:
+  void SetMass(double mass) { mass = mass_; }
+
+  void SetGeometry(const Geometry& geometry) { geometry_ = geometry; }
 
   //inline void SetPosition(const Vector2D& position) { geometry_.SetPosition(position); }
 
