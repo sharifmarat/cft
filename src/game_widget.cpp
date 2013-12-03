@@ -38,11 +38,16 @@ void GameWidget::paintEvent(QPaintEvent*)
 
   for (Game::UnitsContainer::const_iterator it = units.begin(); it != units.end(); ++it)
   {
-    const Ring& geometry = (*it)->GetGeometry();
-    std::cout << "drawing object with id = " << (*it)->GetId() << ", geometry size = " << geometry.size() << "\n";
-    QPolygonF qring; 
-    boost::geometry::transform(geometry, qring, transformer); 
-    painter.drawPolygon(qring); 
+    std::vector<Ring> geometries;
+    (*it)->GetObjectGeometries(geometries);
+    for (std::vector<Ring>::const_iterator geo_it = geometries.begin(); geo_it != geometries.end(); ++geo_it)
+    {
+      const Ring& geometry = *geo_it;
+      std::cout << "drawing object with id = " << (*it)->GetId() << ", geometry size = " << geometry.size() << "\n";
+      QPolygonF qring; 
+      boost::geometry::transform(geometry, qring, transformer); 
+      painter.drawPolygon(qring); 
+    }
   }
 }
 

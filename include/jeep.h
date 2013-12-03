@@ -17,12 +17,22 @@ public:
   {
     const double length = 4.0;
     const double width = 2.0;
+
+    // set mass
+    SetMass(mass);
     
+    // set geometry, position and orientation
     Ring geometry = make_rectangle(position, orientation, length, width);
 
     SetGeometry(geometry);
 
-    SetMass(mass);
+    SetPositionAndOrientation(position, orientation);
+
+    // add sensors
+    for (int degree = -40; degree <= 40; degree += 10)
+    {
+      AddSensor(10, static_cast<double>(degree));
+    }
   }
 
 private:

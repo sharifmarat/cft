@@ -23,6 +23,8 @@ public:
 
     SetGeometry(geometry);
 
+    SetPosition(position);
+
     SetMass(mass);
   }
 
