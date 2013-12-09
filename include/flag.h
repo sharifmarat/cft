@@ -19,7 +19,7 @@ public:
     const double length = 1.0;
     const double width = 1.0;
     
-    Ring geometry = make_rectangle(position, length, width);
+    Ring geometry = make_rectangle(length, width);
 
     SetGeometry(geometry);
 

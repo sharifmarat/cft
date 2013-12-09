@@ -15,48 +15,15 @@ Vector2D normalize(const Vector2D& to_normalize)
 }
 
 
-Ring make_rectangle(const Vector2D& center, const Vector2D& orientation, double length, double width)
+Ring make_rectangle(double length, double width)
 {
-  Vector2D along_length_1 = normalize(orientation);
-  boost::geometry::multiply_value(along_length_1, length / 2.0);
-
-  Vector2D along_length_2 = normalize(orientation);
-  boost::geometry::multiply_value(along_length_2, -length / 2.0);
-
-  Vector2D perpendicular_1 = normalize(Vector2D(orientation.y(), -orientation.x()));
-  boost::geometry::multiply_value(perpendicular_1, width / 2.0);
-
-  Vector2D perpendicular_2 = normalize(Vector2D(-orientation.y(), orientation.x()));
-  boost::geometry::multiply_value(perpendicular_2, width / 2.0);
-
-  Point2D point1 = center;
-  boost::geometry::add_point(point1, along_length_1);
-  boost::geometry::add_point(point1, perpendicular_1);
-
-  Point2D point2 = center;
-  boost::geometry::add_point(point2, along_length_1);
-  boost::geometry::add_point(point2, perpendicular_2);
-
-  Point2D point3 = center;
-  boost::geometry::add_point(point3, along_length_2);
-  boost::geometry::add_point(point3, perpendicular_2);
-
-  Point2D point4 = center;
-  boost::geometry::add_point(point4, along_length_2);
-  boost::geometry::add_point(point4, perpendicular_1);
-
   Ring rectangle;
-  boost::geometry::append(rectangle, point1);
-  boost::geometry::append(rectangle, point2);
-  boost::geometry::append(rectangle, point3);
-  boost::geometry::append(rectangle, point4);
+  boost::geometry::append(rectangle, Vector2D(length / 2., width / 2.));
+  boost::geometry::append(rectangle, Vector2D(length / 2., -width / 2.));
+  boost::geometry::append(rectangle, Vector2D(-length / 2., -width / 2.));
+  boost::geometry::append(rectangle, Vector2D(-length / 2., width / 2.));
 
   return rectangle;
-}
-
-Ring make_rectangle(const Vector2D& center, double length, double width)
-{
-  return make_rectangle(center, Vector2D(1, 0), length, width);
 }
 
 Vector2D rotate(const Vector2D& to_rotate, double degree)
@@ -66,5 +33,33 @@ Vector2D rotate(const Vector2D& to_rotate, double degree)
   boost::geometry::transform(to_rotate, result, rotate);
   return result;
 }
+
+Ring rotate(const Ring& to_rotate, double degree)
+{
+  Ring result = to_rotate;
+  boost::geometry::for_each_point(result, [degree](Vector2D &point)
+      {
+        point = rotate(point, degree);
+      });
+  return result;
+}
+
+Vector2D move_and_rotate(const Vector2D& to_move_and_rotate, const Vector2D& move, double degree)
+{
+  Vector2D result = rotate(to_move_and_rotate, degree);
+  boost::geometry::add_point(result, move);
+  return result;
+}
+
+Ring move_and_rotate(const Ring& to_move_and_rotate, const Vector2D& move, double degree)
+{
+  Ring result = to_move_and_rotate;
+  boost::geometry::for_each_point(result, [&move, degree](Vector2D &point)
+      {
+        point = move_and_rotate(point, move, degree);
+      });
+  return result;
+}
+
 
 }

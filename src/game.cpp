@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include <boost/assign.hpp>
+#include <boost/foreach.hpp>
 #include <boost/geometry.hpp>
 #include <boost/fusion/iterator/next.hpp>
 
@@ -23,11 +24,11 @@ void Game::CreateGame(const GameConfig& game_config)
 
   // create jeeps
   double jeep_mass = 1e3;
-  boost::shared_ptr<Jeep> jeep1(new Jeep(1, 1, Point2D(10, 10), Vector2D(44.0, -20), jeep_mass));
+  boost::shared_ptr<Jeep> jeep1(new Jeep(1, 1, Point2D(10, 10), 13, jeep_mass));
   units_.push_back(jeep1);
 
   Ring jeep_geometry2;
-  boost::shared_ptr<Jeep> jeep2(new Jeep(2, 2, Point2D(30, 30), Vector2D(-0.9, 0.8), jeep_mass));
+  boost::shared_ptr<Jeep> jeep2(new Jeep(2, 2, Point2D(30, 30), 116, jeep_mass));
   units_.push_back(jeep2);
 
   // create flags
@@ -55,6 +56,14 @@ void Game::SelfCheck() const
 
     // check all objects are inside the field
     if (!field_.Within(**it1)) throw WithinException();
+  }
+}
+
+bool Game::MakeMove(double deltaT)
+{
+  BOOST_FOREACH (boost::shared_ptr<Unit<Ring> >& unit, units_)
+  {
+    unit->MoveAndRotate(Vector2D(1, 0), 0);
   }
 }
 

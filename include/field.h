@@ -19,8 +19,7 @@ public:
   template <typename UnitGeometry>
   inline bool Within(const Unit<UnitGeometry>& unit) const
   {
-    //return boost::geometry::within(unit.GetGeometry(), geometry_);
-    const UnitGeometry& unit_geometry = unit.GetGeometry();
+    Ring unit_geometry = unit.GetAbsoluteGeometry();
     bool within = true;
     auto is_point_within = [this, &within](const Point2D& point) { within = within && boost::geometry::within(point, geometry_); };
     boost::geometry::for_each_point(unit_geometry, is_point_within);

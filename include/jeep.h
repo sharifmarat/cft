@@ -12,7 +12,7 @@ namespace cft
 class Jeep : public MovingUnit<Ring>
 {
 public:
-  Jeep(int id, int team_id, const Point2D& position, const Vector2D& orientation, double mass)
+  Jeep(int id, int team_id, const Point2D& position, double orientation, double mass)
     : MovingUnit<Ring>(id, team_id)
   {
     const double length = 4.0;
@@ -22,7 +22,7 @@ public:
     SetMass(mass);
     
     // set geometry, position and orientation
-    Ring geometry = make_rectangle(position, orientation, length, width);
+    Ring geometry = make_rectangle(length, width);
 
     SetGeometry(geometry);
 

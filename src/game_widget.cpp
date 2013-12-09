@@ -43,7 +43,7 @@ void GameWidget::paintEvent(QPaintEvent*)
     for (std::vector<Ring>::const_iterator geo_it = geometries.begin(); geo_it != geometries.end(); ++geo_it)
     {
       const Ring& geometry = *geo_it;
-      std::cout << "drawing object with id = " << (*it)->GetId() << ", geometry size = " << geometry.size() << "\n";
+      //std::cout << "drawing object with id = " << (*it)->GetId() << ", geometry size = " << geometry.size() << "\n";
       QPolygonF qring; 
       boost::geometry::transform(geometry, qring, transformer); 
       painter.drawPolygon(qring); 

@@ -28,6 +28,8 @@ public:
 
   const UnitsContainer& GetUnits() const { return units_; }
 
+  bool MakeMove(double deltaT);
+
 private:
   void SelfCheck() const;
 

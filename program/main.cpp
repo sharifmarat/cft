@@ -19,7 +19,7 @@
 class GameProcessing
 {
 public:
-  GameProcessing(const boost::function<void(void)>& callback) : callback_(callback) { }
+  GameProcessing(cft::Game& game, const boost::function<void(void)>& callback) : game_(game), callback_(callback) { }
 
   void operator()()
   {
@@ -29,10 +29,12 @@ public:
       callback_();
       boost::posix_time::seconds workTime(3);
       boost::this_thread::sleep(workTime);
+      game_.MakeMove(1.0);
     }
   }
 private:
   boost::function<void(void)> callback_;
+  cft::Game& game_;
 };
 
 int main(int argc, char** argv)
@@ -52,7 +54,7 @@ int main(int argc, char** argv)
 
     // create game processing object and thread
 #ifdef QT_CORE_LIB
-    GameProcessing game_processing([&game_widget]() { game_widget.GameUpdated(); });
+    GameProcessing game_processing(game, [&game_widget]() { game_widget.GameUpdated(); });
 #else
     GameProcessing game_processing([]() { });
 #endif
